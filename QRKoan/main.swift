@@ -11,7 +11,6 @@
 
 import Foundation
 import QuartzCore
-import AppKit
 
 let fileName = "/Users/david/Desktop/test.png"
 let maxCapacity = 2953
@@ -59,10 +58,7 @@ func createCGImage(ci: CIImage) -> CGImage? {
 
     CGContextDrawImage(cgContext, ci.extent(), context.createCGImage(ci, fromRect: ci.extent()))
 
-    let nsImage = NSImage(CGImage: CGBitmapContextCreateImage(cgContext), size: NSZeroSize)
-    let cgImage = nsImage.CGImageForProposedRect(nil, context: nil, hints: contextOptions as [NSObject : AnyObject])?.takeRetainedValue()
-
-    return cgImage
+    return CGBitmapContextCreateImage(cgContext)
 }
 
 func saveImage(path: String, image: NSData) {
