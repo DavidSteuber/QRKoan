@@ -41,8 +41,8 @@ func createBitmapContext (size: CGRect) -> CGContext! {
         Int(size.height),
         8,
         0,
-        CGColorSpaceCreateDeviceGray(),
-        CGBitmapInfo(CGImageAlphaInfo.None.rawValue))
+        CGColorSpaceCreateDeviceRGB(),
+        CGBitmapInfo(CGImageAlphaInfo.PremultipliedLast.rawValue))
     CGContextSetInterpolationQuality(context, kCGInterpolationNone)
     CGContextSetShouldAntialias(context, false)
 
@@ -50,11 +50,8 @@ func createBitmapContext (size: CGRect) -> CGContext! {
 }
 
 func createCGImage(ci: CIImage) -> CGImage? {
-    let contextOptions = [kCIContextOutputColorSpace: colorSpaceIndexed(),
-        kCIContextWorkingColorSpace: NSNull(),
-        kCIContextUseSoftwareRenderer: true]
     let cgContext = createBitmapContext(ci.extent())
-    let context = CIContext(CGContext: cgContext, options: contextOptions as [NSObject : AnyObject])
+    let context = CIContext(CGContext: cgContext, options: nil)
 
     CGContextDrawImage(cgContext, ci.extent(), context.createCGImage(ci, fromRect: ci.extent()))
 
@@ -65,10 +62,21 @@ func saveImage(path: String, image: NSData) {
     image.writeToFile(path, atomically: true)
 }
 
+func toCFDictionary<K: NSObject, V: NSObject where K: Hashable>(d: Dictionary<K,V>) -> CFDictionary {
+    return d as NSDictionary as CFDictionary
+}
+
 func getImageFileData(image: CGImage) -> NSData? {
     var pngDataRef = CFDataCreateMutable(nil, 0)
-    let pngDest = CGImageDestinationCreateWithData(pngDataRef, kUTTypePNG, 1, nil)
-    CGImageDestinationAddImage(pngDest, image, nil)
+    var depth = 1
+    var isIndexed = kCFBooleanTrue
+    var options = toCFDictionary([kCGImagePropertyDepth:CFNumberCreate(nil, CFNumberType.IntType, &depth),
+        kCGImagePropertyIsIndexed:isIndexed,
+        kCGImagePropertyHasAlpha:kCFBooleanFalse])
+    var pngDest = CGImageDestinationCreateWithData(pngDataRef, kUTTypePNG, 1, nil)
+
+    CGImageDestinationSetProperties(pngDest, options)
+    CGImageDestinationAddImage(pngDest, image, options)
     CGImageDestinationFinalize(pngDest)
 
     return pngDataRef

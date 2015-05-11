@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		631E8B641AEF858A007F6448 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631E8B631AEF858A007F6448 /* main.swift */; };
+		634B0FEB1B00C77200043EA4 /* libpng.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 634B0FEA1B00C77200043EA4 /* libpng.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		631E8B601AEF858A007F6448 /* QRKoan */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = QRKoan; sourceTree = BUILT_PRODUCTS_DIR; };
 		631E8B631AEF858A007F6448 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		634B0FE41B00C04800043EA4 /* QRKoan-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QRKoan-Bridging-Header.h"; sourceTree = "<group>"; };
+		634B0FEA1B00C77200043EA4 /* libpng.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libpng.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				634B0FEB1B00C77200043EA4 /* libpng.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				631E8B621AEF858A007F6448 /* QRKoan */,
+				634B0FE91B00C77200043EA4 /* Support Files */,
 				631E8B611AEF858A007F6448 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,8 +63,18 @@
 			isa = PBXGroup;
 			children = (
 				631E8B631AEF858A007F6448 /* main.swift */,
+				634B0FE41B00C04800043EA4 /* QRKoan-Bridging-Header.h */,
 			);
 			path = QRKoan;
+			sourceTree = "<group>";
+		};
+		634B0FE91B00C77200043EA4 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				634B0FEA1B00C77200043EA4 /* libpng.dylib */,
+			);
+			name = "Support Files";
+			path = "QRKoan/Support Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,14 +221,33 @@
 		631E8B681AEF858A007F6448 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/QRKoan",
+					"$(PROJECT_DIR)/QRKoan/Support",
+					Files,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "QRKoan/QRKoan-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		631E8B691AEF858A007F6448 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/QRKoan",
+					"$(PROJECT_DIR)/QRKoan/Support",
+					Files,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "QRKoan/QRKoan-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -236,6 +270,7 @@
 				631E8B691AEF858A007F6448 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
